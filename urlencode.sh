@@ -1,21 +1,24 @@
 #!/bin/bash
 
-function urlencode() {
-  local input="$1"
-  local output=""
-  local char
+function encode() {
+	local out=""
+	local count=0
+	arg=$1
 
-  for (( i = 0; i < ${#input}; i++ )); do
-    char=${input:$i:1}
-    case $char in
-      [a-zA-Z0-9._~\-\/]) output+=$char ;;
-      *) output+="%$(printf "%02x\n" <<< "${char}"); ;;
-    esac
-  done
-  echo "$output"
+	until [ $count -eq ${#arg} ]; do
+		char=${arg:count:1}
+		echo $char
+		case $char in
+			[a-zA-Z\d._~\-\/]) 
+				out+=$char
+		;;
+			*) 
+				out+="%$(printf "%02x" <<< "${char}")"
+		;;
+		esac
+	
+		count+=1
+	done
+	echo "$out"
 }
-
-# Test the urlencode function
-input="Hello World!"
-encoded=$(urlencode "$input")
-echo "Encoded: $encoded"
+encode "duran duran"
