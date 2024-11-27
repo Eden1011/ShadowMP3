@@ -1,0 +1,35 @@
+#!/bin/bash
+
+read -r smol < smallcat.txt
+
+smol=${smol//[/}
+smol=${smol//]/}
+smol=${smol//&amp;/&}
+smol=${smol//&lt;/<}
+smol=${smol//&gt;/>}
+smol=${smol//&quot;/}
+smol=${smol//,/}
+
+#echo $smol
+declare -a ar="(${smol})"
+echo
+echo "${ar[@]}"
+echo
+for ((i=0; i<${#ar[@]}; i++)); do
+  echo "Element ${i}: ${ar[i]}"
+done
+#echo ${ar[1]}
+#declare -a smol_array="(${smol})"
+#declare -a clean_arr=()
+#for ((i=0; i<${#smol_array[@]}; i++)); do
+#  echo "Element $i"
+#  echo ${smol_array[i]}
+##  parsed=${smol_array[i]//,/}
+#  if [ ! parsed = "" ]; then
+#    clean_arr+=($parsed)
+#  fi
+#done > outputraw.txt
+#for ((i=0; i<${#clean_arr[@]}; i++)); do
+#  echo "Element $i"
+#  echo ${clean_arr[i]}
+#done > outputclean.txt
