@@ -9,8 +9,9 @@ mkdir -p $dotfile_dir
 urlencode_query() {
   printf %s "$1" | od -An -tx1 -v -w${#1} | tr ' ' %
 }
-pull_from_library() {
-  grep $1 ${dotfile_dir}/${dotfile_saved}
+#Change this accordingly to your preference. By default, only audio is played.
+play_item(){
+  mpv --no-video $1
 }
 
 #TODO: is playlist_name= or is "query", or more at the same time
@@ -21,21 +22,20 @@ pull_from_library() {
 if [ "${1%%=*}" = "API_KEY" ]; then
   API_KEY=${1#*=}
   echo $API_KEY > "${dotfile_dir}/${dotfile_api}"
-  echo "Successfully entered an API key into ${dotfile_dir}/${dotfile_api}" && exit 0
+  echo "Successfully entered an API key into ${dotfile_dir}/${dotfile_api}." && exit 0
 
-elif [[ "$1" =~ = ]] && [ $# -eq 1 ]; then #Saving into library if has =
-  [[ "$1" =~ (=).*\1 ]] && echo "Bad prompt, are you trying to save into library?" >&2 && exit 1   # err when multiple =
-  [[ "$1" =~ \s ]] && echo "Bad prompt, consider replacing <space> into <underscore> if trying to save this item." >&2 && exit 1
-
+#must mean its url after = sign
+elif [[ "$1" =~ ^!([^!]\S[^!])+=\S+$ ]] && [ $# -eq 1 ]; then #Saving into library if has =
   echo "$1" >> "${dotfile_dir}/${dotfile_saved}"
-  echo 'Successfully saved item "$1" into library.' && exit 0
+  echo "Successfully saved item $1 into library: ${dotfile_dir}/${dotfile_saved}." && exit 0
 
-elif [[ "$1" =~ ^![\w\d]* ]] && [ $# -eq 1 ]; then #trying to pull from library
-  pull="$(pull_from_library $1)"
-  if [ $(echo "$pull" | wc -l) -gt 1 ]; then
-    echo "You've got an unresolved conflict inside your library for item ${1}. Decide which to keep." >&2
+elif [[ "$1" =~ ^!([^!]\S[^!])+$ ]] && [ $# -eq 1 ]; then #trying to pull from library
+  if [ $(grep $1 "${dotfile_dir}/${dotfile_saved}" | wc -l) -eq 1 ]; then
+    play_item "${1#*=}" #retrieve link
+  else
+    echo "You've got an unresolved conflict(s) inside your library for item ${1}. Decide which to keep." >&2
     exit 1
-
+  fi
 
 
 elif [ $# -eq 2 ] && [[ "$2" =~ ^[0-9]+$ ]]; then
@@ -87,9 +87,7 @@ declare -a parsed=$(parse_response) #Declare makeshift array into a proper bash 
 echo ${parsed[@]}
 LINK_DESTINATION="https://www.youtube.com/watch?v=${parsed[0]}"
 
-play_item(){
-  mpv --no-video $1
-}
+
 
 
 #TODO: Make working PS3 MENU
