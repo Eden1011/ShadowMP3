@@ -1,6 +1,6 @@
 #!/bin/bash
 #Prepare essential dotfile directory
-dotfile_dir="$HOME/.shadowmp3" #Do not put slash a trailing '/' at the end of this line.
+dotfile_dir="$HOME/.shadowmp3" #Do not put a trailing '/' slash at the end of this line.
 dotfile_api="api_key"
 dotfile_saved="library"
 [ ! -f "${dotfile_dir}/${dotfile_saved}" ] && touch "${dotfile_dir}/${dotfile_saved}"

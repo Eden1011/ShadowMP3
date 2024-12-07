@@ -59,7 +59,7 @@ shadowmp3 @track_name
 ``` 
 Please note, that `@track_name` has to match the whole word for compatibility reasons, because having more than
 one track with the same name results in a pull conflict (the user is notified when such occurs).
-### Choosing from a query input
+### Choosing from a query output
 After a successful query, the program will show you a list of available tracks to play:
 ```text
 Please pick from result(s):
