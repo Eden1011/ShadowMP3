@@ -1,5 +1,5 @@
 # ShadowMP3
-### Lightweight, minimalistic media player for the CLI via YouTube API.
+### Lightweight, minimalistic, shell only, media player for the CLI via YouTube API.
 **ShadowMP3** uses the Google Cloud YouTube API to play media 
 from the site, save tracks (as links) and display thumbnails, all inside the Linux terminal. 
 It is highly customizable (just a single shell script), and provides thorough code comments for DYI tinkering.
@@ -34,12 +34,12 @@ mpv --no-video --loop-file=yes
 All files, are put on a loop, for the user to 'cancel' out of, which prompts the user
 whether they'd like to save the track into memory.
 
-All data saved is inside the `~/.shadowmp3` directory, which contains the two main files:
+All data is saved inside the `~/.shadowmp3` directory, which contains the two main files:
 - api_key - is where the API key is stored,
 - library - where track's names and URLs are stored.
 
 ### Using ShadowMP3
-Firstly, input your private API key into the program by using:
+Firstly, input your private API key into the program. You only have to do this step once. To do it, write the following:
 ```bash
 shadowmp3 API_KEY=your_api_key
 ```
@@ -53,7 +53,7 @@ Note that if the amount of results is not specified, it is set to `5`.
 ```bash
 shadowmp3 track_name=track_link
 ```
-**PULL**: To pull a saved track from the `library`, prefix it's with a `@` like so:
+**PULL**: To pull a saved track from the `library`, prefix it with a `@`, like so:
 ```bash
 shadowmp3 @track_name
 ``` 
