@@ -29,7 +29,7 @@ elif [[ "$1" =~ ^([^\ ])+=([^\ ])+ ]] && [ $# -eq 1 ]; then
 # If argument does the above, but does not contain an equals sign, then is being pulled from library.
 elif [[ "$1" =~ ^@([^\ ])+ ]] && [ $# -eq 1 ]; then
   item=${1#*@}
-  pulled=$(grep -w "$item" "${dotfile_dir}/${dotfile_saved}")
+  pulled=$(grep -w "^${item}" "${dotfile_dir}/${dotfile_saved}")
   num_of_lines=$(echo "$pulled" | grep -c '^[^ ]') # Counts number of non-blank lines
   if [ "$num_of_lines" -eq 1 ]; then
     link=${pulled#*=}
